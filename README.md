@@ -63,3 +63,19 @@ OU
 ### Download Insomnia: [link](https://insomnia.rest/download)
 
 ### Configuração
+
+- Crie um _`Project >> Collection`_.
+- Pressione `ctrl + E` e abrirá uma janela para configurar o ambiente.
+- Crie um _`Sub Enviroment`_
+- Adicione a url base da aplicação.
+
+```Json
+{
+  "BaseUrl": "http://localhost:4000"
+}
+```
+
+- Crie uma nova pasta para agrupar requisições.
+- Crie uma nova requisição.
+- Pressione `Ctrl + espaço` na barra de pesquisa. Selecione a variável `BaseUrl`.
+- Escreva o restante do caminho.

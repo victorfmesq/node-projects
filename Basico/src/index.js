@@ -8,6 +8,10 @@ app.get("/", (request, response) => {
   });
 });
 
+app.get("/projects", (request, response) => {
+  response.json(["projeto 1", "projeto 2"]);
+});
+
 app.listen("4000", () => {
   console.log("Servidor inicializado na porta 4000!");
 });
