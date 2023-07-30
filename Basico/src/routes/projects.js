@@ -1,24 +1,19 @@
 const express = require("express");
+const { v4: generateUuid } = require("uuid");
 const router = express.Router();
 
-let projects = [
-  { id: 1, value: "projeto 1" },
-  { id: 2, value: "projeto 2" },
-  { id: 3, value: "projeto 3" },
-];
+let projects = [];
 
-const getProjectsById = (id) => {
-  return projects.find((proj) => proj.id === id);
+const getProjectIndex = (id) => {
+  return projects.findIndex((p) => p.id === id);
 };
 
-const updateProjectValue = (id, value) => {
-  return projects.map((proj) =>
-    proj.id === id ? { id: id, value: value } : proj
-  );
+const updateProjectValue = (index, updatedProject) => {
+  projects[index] = updatedProject;
 };
 
-const removeProject = (id) => {
-  return projects.filter((project) => project.id !== id);
+const removeProject = (index) => {
+  projects.splice(index, 1);
 };
 
 router.get("/", (request, response) => {
@@ -28,32 +23,52 @@ router.get("/", (request, response) => {
 });
 
 router.post("/", (request, response) => {
-  const { value } = request.body;
+  const { owner, name } = request.body;
 
-  projects.push({ id: projects.length + 1, value });
+  if (!owner || !name) {
+    return response.status(400).json({ Error: "Name and owner are required!" });
+  }
 
-  response.json(projects);
+  projects.push({ id: generateUuid(), owner, name });
+
+  return response.status(201).json(projects);
 });
 
 router.put("/:id", (request, response) => {
   const { id } = request.params;
-  const { value } = request.body;
+  const { owner, name } = request.body;
 
-  const updatedProj = updateProjectValue(parseInt(id), value);
+  const currentProjectIndex = getProjectIndex(id);
 
-  projects = updatedProj;
+  if (currentProjectIndex < 0) {
+    return response.status(404).json({ error: "Project not found!" });
+  }
 
-  response.json(updatedProj);
+  if (!owner || !name) {
+    return response.status(400).json({ Error: "Name and owner are required!" });
+  }
+
+  const updatedProject = { id, owner, name };
+
+  updateProjectValue(currentProjectIndex, updatedProject);
+
+  return response
+    .status(200)
+    .json({ message: "Project updated successfully!" });
 });
 
 router.delete("/:id", (request, response) => {
   const { id } = request.params;
 
-  const result = removeProject(parseInt(id));
+  const currentProjectIndex = getProjectIndex(id);
 
-  projects = result;
+  if (currentProjectIndex < 0) {
+    return response.status(404).json({ error: "Projects not found!" });
+  }
 
-  response.json(result);
+  removeProject(currentProjectIndex);
+
+  return response.status(204).send();
 });
 
-module.exports = router; // exporta o modulo de rotas para ser recebido por require()
+module.exports = router; // exporta o modulo de rotas para ser recebido por require() ou import
