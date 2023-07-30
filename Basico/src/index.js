@@ -1,66 +1,32 @@
-const express = require("express");
+const projectsRoutes = require("./routes/projects"); // importa rotas de projetos
+const express = require("express"); // importa express
 
 const app = express();
 
-const projects = [
-  { id: 1, value: "projeto 1" },
-  { id: 2, value: "projeto 2" },
-  { id: 3, value: "projeto 3" },
-];
+const PORT = "4000";
+const BASE_ROUTE_PATH_PROJECTS = "/projects";
 
-const getProjectsById = (id) => {
-  return projects.find((proj) => proj.id === id);
-};
-
-const updateProjectValue = (id, value) => {
-  return projects.map((proj) =>
-    proj.id === id ? { id: id, value: value } : proj
-  );
-};
+app.use(express.json()); // configura o express para receber JSON no corpo das requisições
+app.use(BASE_ROUTE_PATH_PROJECTS, projectsRoutes); // configura o caminho para as rotas de projects
 
 app.get("/", (request, response) => {
-  response.json({
-    message: "Response passada por JSON.",
-  });
+  response.send("Rota padrão");
 });
 
-app.get("/projects", (request, response) => {
-  const query = request.query;
-
-  response.json(Object.keys(query).length > 0 ? query : projects);
+app.listen(PORT, () => {
+  console.log(`Servidor inicializado na porta ${PORT}!`);
 });
 
-app.post("/projects", (request, response) => {
-  response.json(["projeto 1", "projeto 2", "projeto 3"]);
-});
+// Criando uma api usando node com express
 
-app.put("/projects/:id/:value", (request, response) => {
-  const { id, value } = request.params;
-
-  const updatedProj = updateProjectValue(parseInt(id), value);
-
-  const result = projects.map(
-    (proj) => proj.id === updatedProj.id && updatedProj
-  );
-
-  response.json(id !== null ? updatedProj : projects);
-});
-
-app.delete("/projects/:id", (request, response) => {
-  response.json(["projeto 2", "projeto 3"]);
-});
-
-app.listen("4000", () => {
-  console.log("Servidor inicializado na porta 4000!");
-});
-
-// // Criando uma api usando node com express
-
-// // importa a lib do express. (no node utiliza-se o metodo require)
+// importa a lib do express. (no node utiliza-se o metodo require)
 // const express = require("express");
 
 // // Inicializa a aplicação do express
 // const app = express();
+
+// configura o express para receber JSON no corpo da requisição
+// app.use(express.json());
 
 // /**Cria uma rota do tipo GET para o endereço localhost raiz '/'. E envia de volta
 //  * uma resposta com a string selecionada.
@@ -84,21 +50,22 @@ app.listen("4000", () => {
 //   });
 // });
 
-// /**Configura a porta que sera utilizada pela aplicação
-//  *
-//  * Ou seja, ao excutar a aplicação a porta em questão ficara
-//  * ocupada no pc para que esse app fique vigiando qualquer
-//  * requisição que chegar nas portas acima para a rota abaixo.
-//  */
+/**Configura a porta que sera utilizada pela aplicação
+ *
+ * Ou seja, ao excutar a aplicação a porta em questão ficara
+ * ocupada no pc para que esse app fique vigiando qualquer
+ * requisição que chegar nas portas acima para a rota abaixo.
+ */
+
 // app.listen("4000", () => {
 //   console.log("Servidor inicializado na porta 4000!");
 // });
 
-// /**
-//  * Para executar a aplicação, abra o terminal no diretório do projeto
-//  * e digite o comando:
-//  * >> node .\src\index.js
-//  */
+/**
+ * Para executar a aplicação, abra o terminal no diretório do projeto
+ * e digite o comando:
+ * >> node .\src\index.js
+ */
 
 /**
  * Para acessar os parametros de consulta (QUERY PARAMS):
