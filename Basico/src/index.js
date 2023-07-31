@@ -1,10 +1,10 @@
 const projectsRoutes = require("./routes/projects"); // importa rotas de projetos
 const express = require("express"); // importa express
+const { BASE_ROUTE_PATH_PROJECTS } = require("./routes/constants/index");
 
 const app = express();
 
 const PORT = "4000";
-const BASE_ROUTE_PATH_PROJECTS = "/projects";
 
 app.use(express.json()); // configura o express para receber JSON no corpo das requisições
 app.use(BASE_ROUTE_PATH_PROJECTS, projectsRoutes); // configura o caminho para as rotas de projects

@@ -1,3 +1,4 @@
+const { logRequest } = require("../middlewares/projects");
 const express = require("express");
 const { v4: generateUuid } = require("uuid");
 const router = express.Router();
@@ -16,13 +17,17 @@ const removeProject = (index) => {
   projects.splice(index, 1);
 };
 
+// router.use(logRequest); Aplicando dessa forma usando .use() esse middleware será chamado antes de qualquer rota
+
 router.get("/", (request, response) => {
   const query = request.query;
 
   response.json(Object.keys(query).length > 0 ? query : projects);
 });
 
-router.post("/", (request, response) => {
+// Caso eu queria um middleware para uma rota especifica, antes da função que o end-point executa,
+// basta chamar a função do middleware.
+router.post("/", logRequest, (request, response) => {
   const { owner, name } = request.body;
 
   if (!owner || !name) {
