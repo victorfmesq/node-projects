@@ -95,3 +95,19 @@ npm i -D @types/express @types/cors
 
 yarn add -D @types/express @types/cors
 ```
+
+# TypeORM
+
+### Instalação
+
+```JSON
+npm i typeorm reflect-metadata pg
+
+# ou
+
+yarn add typeorm reflect-metadata pg
+```
+
+- **typeorm**: biblioteca;
+- **reflect-metadata**: necessário para rodar TypeORM com ts;
+- **pg**: Adicionando postgress
