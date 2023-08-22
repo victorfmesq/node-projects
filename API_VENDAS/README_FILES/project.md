@@ -73,3 +73,25 @@ Depois de instalar o `tsconfig-paths`, ajustar o script dev no arquivo `package.
 > Observação: o comando acima deve ser incluído como uma linha única do script `dev`.
 
 Agora, para importar qualquer arquivo no projeto, inicie o caminho com um dos `paths` configurados, usando o` CTRL+SPACE` para usar o autocomplete.
+
+# Instalar Express e CORS
+
+### instalar
+
+```JSON
+npm i express cors express-async-errors
+
+# ou
+
+yarn add express cors express-async-errors
+```
+
+### Aplicar tipagem
+
+```JSON
+npm i -D @types/express @types/cors
+
+# ou
+
+yarn add -D @types/express @types/cors
+```
